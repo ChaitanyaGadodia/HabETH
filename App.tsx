@@ -15,10 +15,23 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import {
-  ChainId
-} from "@biconomy/core-types";
-import SmartAccount from "@biconomy/smart-account";
+import {ChainId} from '@biconomy/core-types';
+import SmartAccount from '@biconomy/smart-account';
+
+// Get the EOA and provider from you choice of your wallet.
+const {provider, address} = useWeb3AuthContext();
+const walletProvider = new ethers.providers.Web3Provider(provider);
+let options = {
+  activeNetworkId: ChainId.GOERLI,
+  supportedNetworksIds: [
+    ChainId.GOERLI,
+    ChainId.POLYGON_MAINNET,
+    ChainId.POLYGON_MUMBAI,
+  ],
+};
+
+let smartAccount = new SmartAccount(walletProvider, options);
+smartAccount = await smartAccount.init();
 
 const Section: React.FC<
   PropsWithChildren<{
